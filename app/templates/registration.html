@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Кнопка "Вернуться" вне контейнера формы регистрации -->
+    <a href="/" class="back-button">← Вернуться</a>
+
+    <!-- Форма регистрации -->
+    <div class="register-container">
+        <h2>Регистрация</h2>
+
+        <form action="{{ url_for('registration') }}" method="POST">
+            {{ form.hidden_tag() }}
+            {% if error_message %}
+            <p class="error-message">{{ error_message }}</p>
+            {% endif %}
+            <!-- Поле для ввода логина -->
+            <div class="form-group">
+                <label for="username">Логин</label>
+                {{ form.username(class_="form-control", oninput="checkForm()") }}
+            {% for error in form.username.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+            </div>
+
+
+            <!-- Поле для ввода email -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                {{ form.email(class_="form-control", oninput="checkForm()") }}
+                {% for error in form.email.errors %}
+                    <span class="error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+
+            <!-- Поле для ввода пароля с кнопкой показа/скрытия -->
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <div class="password-container">
+                    {{ form.password(class_="form-control", id="password-input", oninput="checkForm()") }}
+                    <button type="button" onclick="togglePassword()" class="toggle-password">👁️</button>
+                </div>
+                {% for error in form.password.errors %}
+                    <span class="error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+
+            <!-- Кнопка для регистрации -->
+            {{ form.submit(class_="register-button", id="submit-button", disabled=True) }}
+        </form>
+    </div>
+
+    <script>
+        // Проверка обязательных полей
+        function checkForm() {
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password-input").value;
+            const submitButton = document.getElementById("submit-button");
+
+            if (username && email && password) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+
+        // Переключение видимости пароля
+        function togglePassword() {
+            const passwordInput = document.getElementById("password-input");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+    </script>
+
+</body>
+</html>

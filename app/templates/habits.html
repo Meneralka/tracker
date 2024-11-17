@@ -1,0 +1,47 @@
+{# templates/habits.html #}
+{% extends "base.html" %}
+{% block content %}
+    <div class="task-menu">
+        <!-- Текущая дата -->
+        <div class="date" id="current-date">{{ today_date }}</div>
+
+        <!-- Кнопки управления задачами -->
+        <div class="task-buttons">
+            <button onclick="addTask()">Добавить задачу</button>
+            <button onclick="deleteTask()">Удалить задачу</button>
+        </div>
+
+        <!-- Список задач -->
+        <div class="tasks-container">
+            {% for task in task_list %}
+                <div class="task-card">
+                    <!-- Кнопка выполнения -->
+                    <div class="task-status">
+                    {% if task.progress %}
+                        <button class="status-button completed" title="Выполнено">✔</button>
+                    {% else %}
+                        <button class="status-button incomplete" title="Не выполнено">✖</button>
+                    {% endif %}
+                    </div>
+
+                <!-- Название задачи -->
+                <h4 class="task-title">{{ task.name }}</h4>
+
+                <!-- Описание задачи -->
+                <p class="task-description">{{ task.desc }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+    </div>
+
+    <script>
+        function addTask() {
+            alert("Добавление новой задачи...");
+        }
+
+        function deleteTask() {
+            alert("Удаление задачи...");
+        }
+    </script>
+{% endblock %}

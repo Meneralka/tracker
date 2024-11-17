@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tasks{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <!-- Кнопка профиля -->
+        <div class="profile-button">
+            <a href="{{ url_for('profile') }}">👤 Профиль</a>
+        </div>
+
+        <!-- Список разделов -->
+        <div class="sections">
+            <h3>Разделы</h3>
+            <div class="sections-list">
+            <ul>
+                {% for section in sections %}
+                <button onclick="location.href='/?section={{ section.section_url }}'">{{ section.section }}</button>
+                {% endfor %}
+                <button class="new_section">+ Добавить раздел</button>
+            </ul>
+                </div>
+        </div>
+    </div>
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

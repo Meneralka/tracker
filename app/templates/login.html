@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в аккаунт</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <a href="/" class="back-button">← Вернуться</a>
+    <!-- Форма аутентификации -->
+    <div class="login-container">
+        <h2>Вход в аккаунт</h2>
+        {% if error_message %}
+            <p class="error-message">{{ error_message }}</p>
+        {% endif %}
+        <form action="" method="POST" novalidate>
+            {{ form.hidden_tag() }}
+            <!-- Поле для ввода логина -->
+            <div class="form-group">
+                {{ form.username.label }}
+                {{ form.username(size=32) }}
+            </div>
+
+            <!-- Поле для ввода пароля -->
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(size=32) }}
+            </div>
+
+            <!-- Чекбокс "Запомнить меня" -->
+            <div class="form-group remember-me">
+                {{ form.remember_me() }} {{ form.remember_me.label }}
+            </div>
+
+            <!-- Кнопка для входа -->
+            {{ form.submit(class_="login-button", id="submit-button") }}
+        </form>
+        <div class="register-link">
+            Нет аккаунта? <a href="/registration">Зарегистрируйтесь</a>
+        </div>
+    </div>
+
+<script>
+        // Функция проверки заполненности обязательных полей
+        function checkForm() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const submitButton = document.getElementById("submit-button");
+
+            // Активируем кнопку, если оба поля заполнены, иначе деактивируем
+            if (username && password) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+    </script>
+
+</body>
+</html>
