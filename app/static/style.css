@@ -159,6 +159,17 @@ header {
     font-size: 16px;
 }
 
+.form-group input[id='name'] {
+  border: none;
+  text-align: center;
+  font-size: 24px;
+  outline: none;
+}
+
+.form-group input[id='name']:focus {
+outline:none;
+}
+
 /* Чекбокс "Запомнить меня" */
 .remember-me {
     display: flex;
@@ -449,7 +460,8 @@ body {
     border: 1px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: calc(33.33% - 20px); /* Ширина одной карточки (из 3 на строку) */
+    width: 200px;
+    height: 175px; /* Ширина и высота одной карточки (из 3 на строку) */
     max-width: 240px;
     min-width: 200px;
     padding: 20px;
@@ -479,7 +491,7 @@ body {
     border-radius: 50%;
     font-size: 18px;
     cursor: pointer;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     transition: background-color 0.3s, transform 0.3s;
 }
 
@@ -504,17 +516,118 @@ body {
     font-weight: bold;
     margin-bottom: 10px;
     color: #333;
+    -webkit-line-clamp: 2;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  max-inline-size:24ch;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0px;
+  color: #555;
 }
 
 /* Описание задачи */
 .task-description {
-    font-size: 14px;
-    color: #666;
+  font-size: 14px;
+  color: #666;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+}
+
+p {
+max-inline-size: 28ch;
+margin-inline: auto;
 }
 
 /* Эффект при наведении на карточку */
 .task-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Стили для модального окна */
+.modal {
+    display: none; /* По умолчанию окно скрыто */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+}
+
+/* Контент модального окна */
+.modal-content {
+    background-color: #fff;
+    margin: clamp(100px, 2vw, 200px) auto clamp(100px, 25vw, 200px);
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 580px;
+}
+
+/* Кнопка закрытия модального окна */
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+
+/* Поля ввода */
+input[type="text"],
+textarea {
+    width: 96%;
+    padding: 10px;
+    margin: 10px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: vertical;
+}
+
+
+.submit-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.submit-button:disabled {
+    background-color: #b3b3b3;
+}
+
+/* Выпадающий список */
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #fff;
+    cursor: pointer;
 }
 

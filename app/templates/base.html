@@ -18,6 +18,7 @@
             <h3>Разделы</h3>
             <div class="sections-list">
             <ul>
+                <button onclick="location.href='/'">Все разделы</button>
                 {% for section in sections %}
                 <button onclick="location.href='/?section={{ section.section_url }}'">{{ section.section }}</button>
                 {% endfor %}

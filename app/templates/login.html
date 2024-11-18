@@ -41,20 +41,7 @@
         </div>
     </div>
 
-<script>
-        // Функция проверки заполненности обязательных полей
-        function checkForm() {
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-            const submitButton = document.getElementById("submit-button");
-
-            // Активируем кнопку, если оба поля заполнены, иначе деактивируем
-            if (username && password) {
-                submitButton.disabled = false;
-            } else {
-                submitButton.disabled = true;
-            }
-        }
+    <script src="{{ url_for('static', filename='script.js') }}">
     </script>
 
 </body>

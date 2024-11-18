@@ -1,13 +1,41 @@
 {# templates/habits.html #}
 {% extends "base.html" %}
 {% block content %}
+<!-- Модальное окно -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <form id="addTaskForm" method="POST" action="/task_create" novalidate>
+            {{ form.hidden_tag() }}
+            <!-- Поле ввода имени задачи -->
+            <div class="form-group">
+                {{ form.name(size=32) }}
+            </div>
+            <div class="form-group">
+                {{ form.category.label }}
+                {{ form.category }}
+            </div>
+
+
+            <!-- Поле ввода описания задачи -->
+            <div class="form-group">
+                {{ form.description.label }}
+                {{ form.description(size=265) }}
+            </div>
+
+            <!-- Кнопка подтверждения -->
+
+            {{ form.submit(class_="submit-button", id="submit-button") }}
+        </form>
+    </div>
+</div>
     <div class="task-menu">
         <!-- Текущая дата -->
         <div class="date" id="current-date">{{ today_date }}</div>
 
         <!-- Кнопки управления задачами -->
         <div class="task-buttons">
-            <button onclick="addTask()">Добавить задачу</button>
+            <button id="openModal">Добавить задачу</button>
             <button onclick="deleteTask()">Удалить задачу</button>
         </div>
 
@@ -35,13 +63,6 @@
 
     </div>
 
-    <script>
-        function addTask() {
-            alert("Добавление новой задачи...");
-        }
-
-        function deleteTask() {
-            alert("Удаление задачи...");
-        }
+    <script src="{{ url_for('static', filename='script.js') }}">
     </script>
 {% endblock %}

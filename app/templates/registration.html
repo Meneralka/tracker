@@ -23,7 +23,7 @@
             <!-- Поле для ввода логина -->
             <div class="form-group">
                 <label for="username">Логин</label>
-                {{ form.username(class_="form-control", oninput="checkForm()") }}
+                {{ form.username(class_="form-control") }}
             {% for error in form.username.errors %}
             <span class="error-message">{{ error }}</span>
             {% endfor %}
@@ -33,7 +33,7 @@
             <!-- Поле для ввода email -->
             <div class="form-group">
                 <label for="email">Email</label>
-                {{ form.email(class_="form-control", oninput="checkForm()") }}
+                {{ form.email(class_="form-control") }}
                 {% for error in form.email.errors %}
                     <span class="error-message">{{ error }}</span>
                 {% endfor %}
@@ -44,7 +44,7 @@
             <div class="form-group">
                 <label for="password">Пароль</label>
                 <div class="password-container">
-                    {{ form.password(class_="form-control", id="password-input", oninput="checkForm()") }}
+                    {{ form.password(class_="form-control", id="password-input") }}
                     <button type="button" onclick="togglePassword()" class="toggle-password">👁️</button>
                 </div>
                 {% for error in form.password.errors %}
@@ -58,30 +58,7 @@
         </form>
     </div>
 
-    <script>
-        // Проверка обязательных полей
-        function checkForm() {
-            const username = document.getElementById("username").value;
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password-input").value;
-            const submitButton = document.getElementById("submit-button");
-
-            if (username && email && password) {
-                submitButton.disabled = false;
-            } else {
-                submitButton.disabled = true;
-            }
-        }
-
-        // Переключение видимости пароля
-        function togglePassword() {
-            const passwordInput = document.getElementById("password-input");
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-            } else {
-                passwordInput.type = "password";
-            }
-        }
+    <script src="{{ url_for('static', filename='script.js') }}">
     </script>
 
 </body>

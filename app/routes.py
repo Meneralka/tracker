@@ -3,10 +3,13 @@ from datetime import datetime
 from flask_login import current_user, login_user, login_required
 import sqlalchemy as sa
 from typing import Optional, List
+
+from unicodedata import category
+
 from app import db
 from app.database import User, Tasks, Sections
 from werkzeug.utils import redirect
-from app.forms import LoginForm
+from app.forms import LoginForm, CreateTaskForm
 from app import app
 from flask_login import logout_user
 
@@ -15,18 +18,29 @@ from flask_login import logout_user
 def home():
     today_date = datetime.now().strftime('%d.%m.%Y')
     section = request.args.get('section')
+    form = CreateTaskForm()
+    print(section)
     if section:
-        req = sa.select(Tasks).where(Tasks.user_id == current_user.id, Tasks.section_url == section)
+        req = sa.select(Tasks).where(Tasks.user_id == current_user.id,
+                                     Tasks.section_url == section)
+        categories = [(section, 'Текущая')]
     else:
         req = sa.select(Tasks).where(Tasks.user_id == current_user.id)
+        categories = [('/', 'Выберите раздел')]
+
     sections = db.session.scalars(
         sa.select(Sections).where(Sections.user_id == current_user.id)
     ).all()
     task_list: Optional[List] = db.session.scalars(req).all()
+
+    for i in sections:
+        categories.append((i.section_url, i.section))
+    form.category.choices += list(categories)
+
     return render_template('habits.html',
                            today_date=today_date,
                            task_list=task_list,
-                           sections=sections)
+                           sections=sections, form=form)
 
 @app.route("/login", methods=["GET"])
 def login(error_message: Optional[str] = None):
