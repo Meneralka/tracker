@@ -40,13 +40,13 @@ class CreateTaskForm(FlaskForm):
 class RegisterForm(FlaskForm):
     username = StringField('Логин',
                            validators=[DataRequired()],
-                           render_kw={"oninput": "checkFormRegistrations()"})
+                           render_kw={"oninput": "checkFormRegistration()"})
     email = StringField('Email',
                         validators=[DataRequired(), Email()],
-                        render_kw={"oninput": "checkFormRegistrations()"})
+                        render_kw={"oninput": "checkFormRegistration()"})
     password = PasswordField('Пароль',
                              validators=[DataRequired()],
-                             render_kw={"oninput": "checkFormRegistrations()"})
+                             render_kw={"oninput": "checkFormRegistration()"})
     submit = SubmitField('Зарегистрироваться', render_kw={"disabled": True})
 
     def validate_username(self, username):
