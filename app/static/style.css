@@ -456,7 +456,8 @@ body {
 }
 
 /* Карточка задачи */
-.task-card {
+.task-card,
+.new-task-card {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -469,16 +470,20 @@ body {
     text-align: center;
     transition: transform 0.3s, box-shadow 0.3s;
 }
-@media (max-width: 900px) {
-    .task-card {
-        width: calc(50% - 20px); /* Две карточки на строку */
-    }
-}
 
-@media (max-width: 768px) {
-    .task-card {
-        width: calc(100% - 20px); /* Одна карточка на строку */
-    }
+input#submit.delete-task-button {
+    display: flex;
+    float: revert;
+    border: none;
+    background-color: #f9f9f9;
+    color: #f9f9f9;
+    cursor: default;
+    transition: color 0.3s ease;
+  }
+
+.task-card:hover input#submit.delete-task-button {
+    color: #f44336;
+    cursor: pointer;
 }
 
 /* Стиль кнопки состояния */
@@ -507,8 +512,8 @@ body {
     color: white;
 }
 
-.status-button:hover {
-    transform: scale(1.1);
+.status-button:active {
+    transform: scale(0.8);
 }
 
 /* Название задачи */
@@ -517,11 +522,11 @@ body {
     font-weight: bold;
     margin-bottom: 10px;
     color: #333;
-    -webkit-line-clamp: 2;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-  max-inline-size:24ch;
+    line-clamp: 2;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    max-inline-size:24ch;
 }
 
 .form-group label {
@@ -543,12 +548,35 @@ body {
 p {
 max-inline-size: 28ch;
 margin-inline: auto;
+word-wrap: break-word;
 }
 
 /* Эффект при наведении на карточку */
 .task-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.open_modal {
+    background-color: rgb(255, 190, 70);
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    font-weight:bold;
+    color:white;  
+}
+
+.open_modal:active {
+    transform: scale(0.8);  
 }
 
 /* Стили для модального окна */
@@ -574,6 +602,24 @@ margin-inline: auto;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     text-align: center;
     max-width: 580px;
+    overflow: scroll;
+    max-height: 70%;
+}
+
+.modal-content {
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Ключевые кадры для fadeIn */
+@keyframes fadeIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /* Кнопка закрытия модального окна */
@@ -591,6 +637,19 @@ margin-inline: auto;
     text-decoration: none;
 }
 
+.task-close-button {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.task-close-button:hover,
+.task-close-button:focus {
+    color: #000;
+    text-decoration: none;
+}
 
 /* Поля ввода */
 input[type="text"],
@@ -632,3 +691,109 @@ select {
     cursor: pointer;
 }
 
+/* Контейнер для уведомлений */
+#notification-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Стили для уведомлений */
+.notification {
+    background-color: #333;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.5s, fadeOut 0.5s 4.5s;
+    max-width: 300px;
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+/* Анимация появления */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Анимация исчезновения */
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+/* Успех */
+.notification.success {
+    background-color: #4caf50;
+}
+
+/* Ошибка */
+.notification.error {
+    background-color: #f44336;
+}
+
+/* Информация */
+.notification.info {
+    background-color: #2196f3;
+}
+
+div#add_category {
+    display: none; /* По умолчанию окно скрыто */
+}
+
+form#addSectionForm {
+    width: 100%;
+    text-align: left;
+    background-color: #e8e8e8; /* Чуть темнее фона сайдбара */
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    box-shadow: none;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+input#category {
+    width: 75%;
+    margin: 0px;
+    background-color: #e8e8e8;
+    border: none;
+    outline: none;
+}
+
+input#submitAddCategory {
+    border:none;
+    background-color: #45a049;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+input#submitAddCategory:disabled {
+    border:none;
+    background-color: #e8e8e8;
+    color: #333;
+    cursor: default;
+}
+
+button#new_section[action='close']:hover {
+    background-color: #f44336;
+    color: white;
+    transition: background-color 0.1s, color 0.1s;
+}

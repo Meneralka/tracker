@@ -4,6 +4,7 @@ import sqlalchemy as sa
 from app.database import User, Sections
 from app import db
 from app import app
+from app.forms import CreateSectionForm
 
 
 @app.route('/account', methods=['GET'])
@@ -19,4 +20,4 @@ def profile():
     ).all()
     user = {"username":user.username, 'email': user.email}
     return render_template('profile.html',
-                           user=user, sections=sections)
+                           user=user, sections=sections, add_section=CreateSectionForm())

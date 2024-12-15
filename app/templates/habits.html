@@ -29,36 +29,50 @@
         </form>
     </div>
 </div>
+<div id="taskModal" class="modal">
+    <div class="modal-content">
+        <span class="task-close-button" id="taskModalClose">&times;</span>
+        <h2 id="taskTitle">Название задачи</h2>
+        <p id="taskDescription"></p>
+    </div>
+</div>
     <div class="task-menu">
         <!-- Текущая дата -->
         <div class="date" id="current-date">{{ today_date }}</div>
-
-        <!-- Кнопки управления задачами -->
-        <div class="task-buttons">
-            <button id="openModal">Добавить задачу</button>
-            <button onclick="deleteTask()">Удалить задачу</button>
-        </div>
-
         <!-- Список задач -->
         <div class="tasks-container">
             {% for task in task_list %}
-                <div class="task-card">
+                <div class="task-card" data-task-id="{{ task.id }}">
+                    <form class="delete-task" method="POST" novalidate>
+                        {{ trash.task_id(value=task.id) }}
+                        {{ trash.csrf_token() }}
+                        {{ trash.submit(class='delete-task-button', value='x') }}
+                    </form>
                     <!-- Кнопка выполнения -->
-                    <div class="task-status">
-                    {% if task.progress %}
-                        <button class="status-button completed" title="Выполнено">✔</button>
-                    {% else %}
-                        <button class="status-button incomplete" title="Не выполнено">✖</button>
-                    {% endif %}
-                    </div>
+                    <form id="task-status" class="task_status" method="POST" action="/change_status_task" novalidate>
+                        {{ form_change_task.task_id(value=task.id) }}
+                        {{ form_change_task.csrf_token() }}
+
+                        {% if task.progress %}
+                            {{ form_change_task.submit(title="Выполнено",  class="status-button completed", value="✔") }}
+                        {% else %}
+                            {{ form_change_task.submit(title="Не выполнено",  class="status-button incomplete", value='✖') }}
+                        {% endif %}
+
+                    </form>
 
                 <!-- Название задачи -->
                 <h4 class="task-title">{{ task.name }}</h4>
 
                 <!-- Описание задачи -->
                 <p class="task-description">{{ task.desc }}</p>
-    </div>
-    {% endfor %}
+                </div>
+            {% endfor %}
+            <div class="new-task-card">
+                <button id="openModal" class="open_modal">+</button>
+                <h4 class="task-title">Добавить задачу</h4>
+            </div>
+
 </div>
 
     </div>

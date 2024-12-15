@@ -17,15 +17,24 @@
         <div class="sections">
             <h3>Разделы</h3>
             <div class="sections-list">
-            <ul>
+            <ul id="sections-list">
                 <button onclick="location.href='/'">Все разделы</button>
                 {% for section in sections %}
-                <button onclick="location.href='/?section={{ section.section_url }}'">{{ section.section }}</button>
+                <button onclick="location.href='/?section={{ section.section_url }}'"><strong>{{ section.section }}</strong></button>
                 {% endfor %}
-                <button class="new_section">+ Добавить раздел</button>
+                <div class="add_category" id="add_category">
+                    <div class="add_category_content">
+                        <form id="addSectionForm" method="POST" action="/section_create" novalidate>
+                            {{ add_section.hidden_tag()}}
+                            {{ add_section.category() }}{{add_section.submit(id="submitAddCategory")}}
+                        </form>
+                    </div>
+                </div>
+                <button class="new_section" id="new_section" action='open'>&#10133; Добавить раздел</button>
             </ul>
                 </div>
         </div>
+        <div id="notification-container"></div>
     </div>
 
     <div class="content">

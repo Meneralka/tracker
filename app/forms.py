@@ -1,12 +1,15 @@
 import re
 
 from flask_wtf import FlaskForm
+from jinja2.utils import import_string
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, validators
-from wtforms.fields.simple import TextAreaField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from wtforms.fields.simple import TextAreaField, HiddenField
+from wtforms.validators import ValidationError, DataRequired, Email
 import sqlalchemy as sa
 from app import db
-from app.database import User, Sections
+from app.icons import Icons
+from app.database import User
+from markupsafe import Markup
 
 
 class LoginForm(FlaskForm):
@@ -37,6 +40,15 @@ class CreateTaskForm(FlaskForm):
                          render_kw={"disabled": ''}
                          )
 
+class CreateSectionForm(FlaskForm):
+    category = StringField('Название раздела',
+                           validators=[DataRequired()],
+                       render_kw={"oninput": "checkFormAddSection()",
+                                  'placeholder':"Введите раздел"})
+    submit = SubmitField('✔',
+                         render_kw={"disabled": ''}
+                         )
+
 class RegisterForm(FlaskForm):
     username = StringField('Логин',
                            validators=[DataRequired()],
@@ -63,3 +75,15 @@ class RegisterForm(FlaskForm):
     def validate_password(self, password):
         if len(password.data) < 8:
             raise ValidationError('Пароль должен содержать минимум 8 символов')
+
+class deleteTaskForm():
+    submit = SubmitField('&times;', render_kw={"disabled": True})
+
+class changeStatusForm(FlaskForm):
+    task_id = HiddenField(label="Task ID")
+    submit = SubmitField()
+
+class deleteTaskForm(FlaskForm):
+    task_id = HiddenField("Task ID")
+    submit = SubmitField('Удалить')
+

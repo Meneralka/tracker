@@ -4,14 +4,15 @@ from flask_login import current_user, login_user, login_required
 import sqlalchemy as sa
 from typing import Optional, List
 
-from unicodedata import category
-
 from app import db
 from app.database import User, Tasks, Sections
 from werkzeug.utils import redirect
-from app.forms import LoginForm, CreateTaskForm
+from app.forms import LoginForm, CreateTaskForm, changeStatusForm, CreateSectionForm, deleteTaskForm
 from app import app
 from flask_login import logout_user
+
+from app.tasks import delete_task
+
 
 @app.route("/")
 @login_required
@@ -19,7 +20,7 @@ def home():
     today_date = datetime.now().strftime('%d.%m.%Y')
     section = request.args.get('section')
     form = CreateTaskForm()
-    print(section)
+    form_change_task = changeStatusForm()
     if section:
         req = sa.select(Tasks).where(Tasks.user_id == current_user.id,
                                      Tasks.section_url == section)
@@ -40,7 +41,11 @@ def home():
     return render_template('habits.html',
                            today_date=today_date,
                            task_list=task_list,
-                           sections=sections, form=form)
+                           sections=sections,
+                           form=form,
+                           form_change_task=form_change_task,
+                           add_section=CreateSectionForm(),
+                           trash=deleteTaskForm())
 
 @app.route("/login", methods=["GET"])
 def login(error_message: Optional[str] = None):
